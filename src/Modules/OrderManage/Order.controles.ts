@@ -8,7 +8,6 @@ const CreateOrder = async (req: Request, res: Response) => {
     
       const Order = req.body;
       const zodParseData=TorderProductSchema.parse(Order)
-    
       const result = await orderService.createOrderDblink(zodParseData);
       res.status(200).json({
         success: true,

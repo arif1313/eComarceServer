@@ -1,10 +1,54 @@
+import { productService } from "../Product/Product.service";
 import { TorderProduct } from "./Order.interface";
 import { OrderProductModel } from "./Order.model";
 
-const createOrderDblink = async (product: TorderProduct) => {
-    const result = await OrderProductModel.create(product);
-    return result;
-  };
+const createOrderDblink = async (order: TorderProduct) => {
+       const orderContity:number=order.quantity;
+       const mainProduct:any= await productService.GetAsingleProductFromDB(order.productId);
+
+       if (!mainProduct || !mainProduct.inventory) {
+        return {
+            success: false,
+            message: "Product not found or inventory details missing"
+        };
+    }
+    if (orderContity > mainProduct.inventory.quantity) {
+        return {
+            success: false,
+            message: "Ordered quantity exceeds available inventory"
+        };
+    }
+    try {
+        // Create the order
+        const result = await OrderProductModel.create(order);
+        
+        // Optionally update inventory here if needed
+        mainProduct.inventory.quantity -= orderContity;
+        await mainProduct.save();
+
+        return {
+            success: true,
+            message: "Order created successfully",
+            data: result
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: "Failed to create order",
+            error: error
+        };
+    }
+};
+
+    //     if(mainProduct.inventory.quantity){
+    //         if(orderContity>=mainProduct?.inventory.quantity){
+    //             const result = await OrderProductModel.create(order);
+    //             return result;
+               
+    //     }
+    
+    //    }
+      
   const getOrdersDblink = async () => {
     const result = await OrderProductModel.find();
     return result;
