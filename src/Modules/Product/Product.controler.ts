@@ -5,13 +5,9 @@ import { TProductSchema } from './Product.validation';
 const CreateProduct = async (req: Request, res: Response) => {
   try {
     //zod validatin 
-    // const ProductValidationSchema=z.object({
-    //     name:z.string().max(20,{message:'Name can not be more than 20 characters'})
-    // })
+  
     const product = req.body;
     const zodParseData=TProductSchema.parse(product)
-
-
   
     const result = await productService.createproductDbLInk(zodParseData);
     res.status(200).json({
@@ -55,8 +51,24 @@ const getSingleProduct = async (req: Request, res: Response) => {
     console.log(err);
   }
 };
+const updateAsingleprodcut = async (req: Request, res: Response) => {
+    try {
+      const product = req.params;
+      const result = await productService.updateAsingleProductFromDB(
+        product.productId,
+      );
+      res.status(200).json({
+        success: true,
+        message: 'single update success',
+        data: result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 export const productControlers = {
   CreateProduct,
   getProduct,
   getSingleProduct,
+  updateAsingleprodcut
 };

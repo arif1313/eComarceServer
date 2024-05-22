@@ -13,8 +13,18 @@ const GetProductFromDB = async () => {
     const result = await ProductModel.findOne({_id:id});
     return result;
   };
+  const updateAsingleProductFromDB = async (id:string) => {
+    const result = await ProductModel.updateOne(
+        {_id:id},
+        {$set:{
+            "inventory.quantity":10
+        }}
+    );
+    return result;
+  };
 export const productService = {
   createproductDbLInk,
   GetProductFromDB,
-  GetAsingleProductFromDB
+  GetAsingleProductFromDB,
+  updateAsingleProductFromDB
 };
