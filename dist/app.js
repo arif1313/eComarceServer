@@ -12,5 +12,5 @@ exports.app.use(express_1.default.json());
 exports.app.use((0, cors_1.default)());
 exports.app.use('/ecomarce/v1/api', Product_routes_1.ProductRout);
 exports.app.get('/', (req, res) => {
-    res.send('Hello ');
+    res.send({ message: 'hello this is my ecomarce server ' });
 });

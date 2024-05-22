@@ -6,6 +6,5 @@ app.use(express.json());
 app.use(cors());
 app.use('/ecomarce/v1/api', ProductRout);
 app.get('/', (req: Request, res: Response) => {
-  
-  res.send('Hello ');
+  res.send({ message: 'hello this is my ecomarce server ' });
 });
