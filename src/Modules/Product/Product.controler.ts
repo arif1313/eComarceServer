@@ -20,7 +20,20 @@ const getProduct = async (req: Request, res: Response) => {
       const result = await productService.GetProductFromDB();
       res.status(200).json({
         success: true,
-        message: 'producct creeat success',
+        message: 'products got success',
+        data: result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const getSingleProduct = async (req: Request, res: Response) => {
+    try {
+     const product=req.params
+      const result = await productService.GetAsingleProductFromDB(product.id);
+      res.status(200).json({
+        success: true,
+        message: 'single product success',
         data: result,
       });
     } catch (err) {
@@ -29,5 +42,6 @@ const getProduct = async (req: Request, res: Response) => {
   };
 export const productControlers = {
   CreateProduct,
-  getProduct
+  getProduct,
+  getSingleProduct
 };
