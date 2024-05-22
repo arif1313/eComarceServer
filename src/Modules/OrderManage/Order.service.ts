@@ -20,15 +20,24 @@ const createOrderDblink = async (order: TorderProduct) => {
       message: 'Ordered quantity exceeds available inventory',
     };
   }
+  
   try {
     // Create the order
-    const result = await OrderProductModel.create(order);
-
-    // Optionally update inventory here if needed
-    mainProduct.inventory.quantity -= orderContity;
-    await mainProduct.save();
-
-    return result;
+   
+    if(orderContity === mainProduct.inventory.quantity){
+        const result = await OrderProductModel.create(order);
+        mainProduct.inventory.quantity -= orderContity;
+        mainProduct.inventory.inStock = false;
+        await mainProduct.save();
+        return result;
+      } else{
+        const result = await OrderProductModel.create(order);
+        mainProduct.inventory.quantity -= orderContity;
+        
+        await mainProduct.save();
+        return result;
+      }
+   
   } catch (error) {
     return error;
   }
