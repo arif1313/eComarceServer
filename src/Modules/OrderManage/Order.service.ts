@@ -1,4 +1,4 @@
-import { productService } from '../Product/Product.service';
+import { productService } from '../../Product/Product.service';
 import { TorderProduct } from './Order.interface';
 import { OrderProductModel } from './Order.model';
 
@@ -34,20 +34,22 @@ const createOrderDblink = async (order: TorderProduct) => {
   }
 };
 
-//     if(mainProduct.inventory.quantity){
-//         if(orderContity>=mainProduct?.inventory.quantity){
-//             const result = await OrderProductModel.create(order);
-//             return result;
 
-//     }
-
-//    }
 
 const getOrdersDblink = async () => {
   const result = await OrderProductModel.find();
   return result;
 };
+
+const SearchAsingleOrderFromDB = async (email: string) => {
+ 
+    const query = { email: email };
+    const result = await OrderProductModel.findOne(query);
+    return result;
+ 
+};
 export const orderService = {
   createOrderDblink,
   getOrdersDblink,
+  SearchAsingleOrderFromDB
 };

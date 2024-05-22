@@ -1,4 +1,4 @@
-import { ProductModel } from '../Product.model';
+import { ProductModel } from '../Modules/Product.model';
 import { TProduct } from './Product.interface';
 
 const createproductDbLInk = async (product: TProduct) => {
@@ -18,7 +18,7 @@ const updateAsingleProductFromDB = async (id: string) => {
     { _id: id },
     {
       $set: {
-        'inventory.quantity': 10,
+        'inventory.quantity': 49,
       },
     },
   );
@@ -29,19 +29,19 @@ const DeleteAsingleProductFromDB = async (id: string) => {
   const result = await ProductModel.findOne({ _id: id });
   return result;
 };
-//   const SearchAsingleProductFromDB = async (Key:string,value:string) => {
-//     // await ProductModel.findOne();
+const SearchAsingleProductFromDB = async (name: string) => {
+ 
+    const query = { name: name };
+    const result = await ProductModel.findOne(query);
+    return result;
+ 
+};
 
-//     let query = {{$name :value}};
-
-//     const result=await ProductModel.findOne(query);
-//      return result;
-//    };
 export const productService = {
   createproductDbLInk,
   GetProductFromDB,
   GetAsingleProductFromDB,
   updateAsingleProductFromDB,
   DeleteAsingleProductFromDB,
-  //   SearchAsingleProductFromDB
+  SearchAsingleProductFromDB,
 };

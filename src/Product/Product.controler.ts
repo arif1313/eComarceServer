@@ -12,7 +12,7 @@ const CreateProduct = async (req: Request, res: Response) => {
     const result = await productService.createproductDbLInk(zodParseData);
     res.status(200).json({
       success: true,
-      message: 'producct creeat success',
+      message: 'Product created successfully!',
       data: result,
     });
   } catch (err) {
@@ -20,22 +20,11 @@ const CreateProduct = async (req: Request, res: Response) => {
       success: false,
       message: 'somethign worng',
       error: err,
-      // error: err.issues.message,
+      
     });
   }
 };
-const getProduct = async (req: Request, res: Response) => {
-  try {
-    const result = await productService.GetProductFromDB();
-    res.status(200).json({
-      success: true,
-      message: 'products got success',
-      data: result,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const product = req.params;
@@ -44,11 +33,15 @@ const getSingleProduct = async (req: Request, res: Response) => {
     );
     res.status(200).json({
       success: true,
-      message: 'single product success',
+      message: 'Product fetched successfully!',
       data: result,
     });
   } catch (err) {
-    console.log(err);
+   res.status(500).json({
+      success: false,
+      message: 'something error !',
+      err: err,
+    });
   }
 };
 const updateAsingleprodcut = async (req: Request, res: Response) => {
@@ -59,11 +52,15 @@ const updateAsingleprodcut = async (req: Request, res: Response) => {
     );
     res.status(200).json({
       success: true,
-      message: 'single update success',
+      message: 'Product updated successfully',
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: 'something error !',
+      err: err,
+    });
   }
 };
 const deleteAsingleprodcut = async (req: Request, res: Response) => {
@@ -78,32 +75,51 @@ const deleteAsingleprodcut = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: 'something error !',
+      err: err,
+    });
   }
 };
-//   const searcProdcutByQury = async (req: Request, res: Response) => {
-//     try {
-//       const Key = req.query.key
-//       const Value=req.query.value
-//       if(typeof(Value)==="string"&&typeof(Key)==="string"){
-//         const result = await productService.SearchAsingleProductFromDB(Key,Value)
-//         res.status(200).json({
-//             success: true,
-//             message: "Product deleted successfully!",
-//             data: result,
-//           })
+const searchProductByQuery = async (req: Request, res: Response) => {
+    try {
+      const name = req.query.name as string | undefined;
+  
+      if (!name) {
+       
+            const result = await productService.GetProductFromDB();
+           
+            res.status(200).json({
+              success: true,
+              message: 'Products fetched successfully!',
+              data: result,
+            });
+          }else{
+            const result = await productService.SearchAsingleProductFromDB(name)
 
-//     }
+                res.status(200).json({
+                    success: true,
+                    message: "Products matching search term 'iphone' fetched successfully!",
+                    data: result,
+                  });
 
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   };
+          }
+      
+    }  catch (error) {
+   
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error.',
+      error:error
+    });
+  }
+};
+
 export const productControlers = {
   CreateProduct,
-  getProduct,
   getSingleProduct,
   updateAsingleprodcut,
   deleteAsingleprodcut,
-  //   searcProdcutByQury
+  searchProductByQuery,
 };
