@@ -12,5 +12,5 @@ Router.delete('/products/:productId', productControlers.deleteAsingleprodcut);
 // Router.get('/products', productControlers.searcProdcutByQury);
 
 Router.post('/orders', orderControls.CreateOrder);
-
+Router.get('/orders', orderControls.getOrders);
 export const ProductRout = Router;

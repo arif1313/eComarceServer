@@ -24,6 +24,25 @@ const CreateOrder = async (req: Request, res: Response) => {
         });
     }
   };
+  const getOrders = async (req: Request, res: Response) => {
+    try {
+  
+      const result = await orderService.getOrdersDblink();
+      res.status(200).json({
+        success: true,
+        message: 'order got success',
+        data: result,
+      });
+    } catch (err) {
+      res.status(500).json({
+          success: false,
+          message: 'somethign worng',
+          error: err
+          // error: err.issues.message,
+        });
+    }
+  };
   export const orderControls={
-    CreateOrder
+    CreateOrder,
+    getOrders
   }
