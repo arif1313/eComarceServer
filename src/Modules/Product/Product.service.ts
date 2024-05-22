@@ -6,32 +6,33 @@ const createproductDbLInk = async (product: TProduct) => {
   return result;
 };
 const GetProductFromDB = async () => {
-    const result = await ProductModel.find();
-    return result;
-  };
-  const GetAsingleProductFromDB = async (id:string) => {
-    const result = await ProductModel.findOne({_id:id});
-    return result;
-  };
-  const updateAsingleProductFromDB = async (id:string) => {
-    const result = await ProductModel.updateOne(
-        {_id:id},
-        {$set:{
-            "inventory.quantity":10
-        }}
-    );
-    return result;
-  };
-  const DeleteAsingleProductFromDB = async (id:string) => {
-   await ProductModel.deleteOne({_id:id});
-   const result=await ProductModel.findOne({_id:id});
-    return result;
-  };
+  const result = await ProductModel.find();
+  return result;
+};
+const GetAsingleProductFromDB = async (id: string) => {
+  const result = await ProductModel.findOne({ _id: id });
+  return result;
+};
+const updateAsingleProductFromDB = async (id: string) => {
+  const result = await ProductModel.updateOne(
+    { _id: id },
+    {
+      $set: {
+        'inventory.quantity': 10,
+      },
+    },
+  );
+  return result;
+};
+const DeleteAsingleProductFromDB = async (id: string) => {
+  await ProductModel.deleteOne({ _id: id });
+  const result = await ProductModel.findOne({ _id: id });
+  return result;
+};
 //   const SearchAsingleProductFromDB = async (Key:string,value:string) => {
-//     // await ProductModel.findOne(); 
-    
+//     // await ProductModel.findOne();
+
 //     let query = {{$name :value}};
-    
 
 //     const result=await ProductModel.findOne(query);
 //      return result;
@@ -42,5 +43,5 @@ export const productService = {
   GetAsingleProductFromDB,
   updateAsingleProductFromDB,
   DeleteAsingleProductFromDB,
-//   SearchAsingleProductFromDB
+  //   SearchAsingleProductFromDB
 };

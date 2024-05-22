@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
-const result = dotenv_1.default.config({ path: path_1.default.join(process.cwd(), '.env') });
+dotenv_1.default.config({ path: path_1.default.join(process.cwd(), '.env') });
 exports.default = {
     Port: process.env.PORT,
-    DB_URL: process.env.DB_URL
+    DB_URL: process.env.DB_URL,
 };

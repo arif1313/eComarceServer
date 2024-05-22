@@ -1,6 +1,5 @@
 import express from 'express';
 import { productControlers } from './Product.controler';
-import { orderService } from '../OrderManage/Order.service';
 import { orderControls } from '../OrderManage/Order.controles';
 const Router = express.Router();
 

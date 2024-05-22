@@ -19,12 +19,17 @@ const TInventorySchema = z.object({
 });
 
 const TProductSchema = z.object({
-  name: z.string({
-    required_error: 'Name is required',
-  }).trim().max(20, 'Name cannot be more than 20 characters'),
-  description: z.string({
-    required_error: 'Must enter product information',
-  }).min(30, 'Description should be more than 30 characters'),
+  name: z
+    .string({
+      required_error: 'Name is required',
+    })
+    .trim()
+    .max(20, 'Name cannot be more than 20 characters'),
+  description: z
+    .string({
+      required_error: 'Must enter product information',
+    })
+    .min(30, 'Description should be more than 30 characters'),
   price: z.number({
     required_error: 'Price is required',
   }),
