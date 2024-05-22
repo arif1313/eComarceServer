@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { productService } from './Product.service';
-import { ZodError, object, z } from "zod";
+import { ZodError, object, string, z } from "zod";
 import { TProductSchema } from './Product.validation';
 const CreateProduct = async (req: Request, res: Response) => {
   try {
@@ -81,10 +81,30 @@ const updateAsingleprodcut = async (req: Request, res: Response) => {
       console.log(err);
     }
   };
+//   const searcProdcutByQury = async (req: Request, res: Response) => {
+//     try {
+//       const Key = req.query.key
+//       const Value=req.query.value
+//       if(typeof(Value)==="string"&&typeof(Key)==="string"){
+//         const result = await productService.SearchAsingleProductFromDB(Key,Value)
+//         res.status(200).json({
+//             success: true,
+//             message: "Product deleted successfully!",
+//             data: result,
+//           })
+    
+//     }
+     
+     
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
 export const productControlers = {
   CreateProduct,
   getProduct,
   getSingleProduct,
   updateAsingleprodcut,
-  deleteAsingleprodcut
+  deleteAsingleprodcut,
+//   searcProdcutByQury
 };

@@ -27,10 +27,20 @@ const GetProductFromDB = async () => {
    const result=await ProductModel.findOne({_id:id});
     return result;
   };
+//   const SearchAsingleProductFromDB = async (Key:string,value:string) => {
+//     // await ProductModel.findOne(); 
+    
+//     let query = {{$name :value}};
+    
+
+//     const result=await ProductModel.findOne(query);
+//      return result;
+//    };
 export const productService = {
   createproductDbLInk,
   GetProductFromDB,
   GetAsingleProductFromDB,
   updateAsingleProductFromDB,
-  DeleteAsingleProductFromDB
+  DeleteAsingleProductFromDB,
+//   SearchAsingleProductFromDB
 };
