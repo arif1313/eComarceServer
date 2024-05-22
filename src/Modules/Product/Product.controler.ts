@@ -66,9 +66,25 @@ const updateAsingleprodcut = async (req: Request, res: Response) => {
       console.log(err);
     }
   };
+  const deleteAsingleprodcut = async (req: Request, res: Response) => {
+    try {
+      const product = req.params;
+      const result = await productService.DeleteAsingleProductFromDB(
+        product.productId,
+      );
+      res.status(200).json({
+        success: true,
+        message: "Product deleted successfully!",
+        data: result,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 export const productControlers = {
   CreateProduct,
   getProduct,
   getSingleProduct,
-  updateAsingleprodcut
+  updateAsingleprodcut,
+  deleteAsingleprodcut
 };

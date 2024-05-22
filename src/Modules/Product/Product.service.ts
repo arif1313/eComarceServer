@@ -22,9 +22,15 @@ const GetProductFromDB = async () => {
     );
     return result;
   };
+  const DeleteAsingleProductFromDB = async (id:string) => {
+   await ProductModel.deleteOne({_id:id});
+   const result=await ProductModel.findOne({_id:id});
+    return result;
+  };
 export const productService = {
   createproductDbLInk,
   GetProductFromDB,
   GetAsingleProductFromDB,
-  updateAsingleProductFromDB
+  updateAsingleProductFromDB,
+  DeleteAsingleProductFromDB
 };
