@@ -20,7 +20,6 @@ const CreateProduct = async (req: Request, res: Response) => {
       success: false,
       message: 'somethign worng',
       error: err,
-      
     });
   }
 };
@@ -37,7 +36,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-   res.status(500).json({
+    res.status(500).json({
       success: false,
       message: 'something error !',
       err: err,
@@ -47,8 +46,10 @@ const getSingleProduct = async (req: Request, res: Response) => {
 const updateAsingleprodcut = async (req: Request, res: Response) => {
   try {
     const product = req.params;
+    const updatData = req.body;
     const result = await productService.updateAsingleProductFromDB(
       product.productId,
+      updatData,
     );
     res.status(200).json({
       success: true,
@@ -83,35 +84,32 @@ const deleteAsingleprodcut = async (req: Request, res: Response) => {
   }
 };
 const searchProductByQuery = async (req: Request, res: Response) => {
-    try {
-      const name = req.query.name as string | undefined;
-  
-      if (!name) {
-       
-            const result = await productService.GetProductFromDB();
-           
-            res.status(200).json({
-              success: true,
-              message: 'Products fetched successfully!',
-              data: result,
-            });
-          }else{
-            const result = await productService.SearchAsingleProductFromDB(name)
+  try {
+    const searchTerm = req.query.searchTerm as string | undefined;
 
-                res.status(200).json({
-                    success: true,
-                    message: "Products matching search term 'iphone' fetched successfully!",
-                    data: result,
-                  });
+    if (!searchTerm) {
+      const result = await productService.GetProductFromDB();
 
-          }
-      
-    }  catch (error) {
-   
+      res.status(200).json({
+        success: true,
+        message: 'Products fetched successfully!',
+        data: result,
+      });
+    } else {
+      const result =
+        await productService.SearchAsingleProductFromDB(searchTerm);
+
+      res.status(200).json({
+        success: true,
+        message: "Products matching search term 'iphone' fetched successfully!",
+        data: result,
+      });
+    }
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: 'Internal server error.',
-      error:error
+      error: error,
     });
   }
 };

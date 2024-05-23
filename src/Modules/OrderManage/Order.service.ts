@@ -1,8 +1,15 @@
+// import { promises } from 'dns';
 import { productService } from '../../Product/Product.service';
 import { TorderProduct } from './Order.interface';
 import { OrderProductModel } from './Order.model';
 
-const createOrderDblink = async (order: TorderProduct) => {
+type promiss = {
+  success: boolean;
+  message: string;
+  data?: string | object;
+};
+
+const createOrderDblink = async (order: TorderProduct): Promise<promiss> => {
   const orderContity: number = order.quantity;
   const mainProduct = await productService.GetAsingleProductFromDB(
     order.productId,
@@ -11,39 +18,47 @@ const createOrderDblink = async (order: TorderProduct) => {
   if (!mainProduct || !mainProduct.inventory) {
     return {
       success: false,
-      message: 'Product not found or inventory details missing',
+      message: 'Order not found',
     };
   }
   if (orderContity > mainProduct.inventory.quantity) {
     return {
       success: false,
-      message: 'Ordered quantity exceeds available inventory',
+      message: 'Insufficient quantity available in inventory',
     };
   }
-  
+
   try {
     // Create the order
-   
-    if(orderContity === mainProduct.inventory.quantity){
-        const result = await OrderProductModel.create(order);
-        mainProduct.inventory.quantity -= orderContity;
-        mainProduct.inventory.inStock = false;
-        await mainProduct.save();
-        return result;
-      } else{
-        const result = await OrderProductModel.create(order);
-        mainProduct.inventory.quantity -= orderContity;
-        
-        await mainProduct.save();
-        return result;
-      }
-   
+
+    if (orderContity === mainProduct.inventory.quantity) {
+      const result = await OrderProductModel.create(order);
+      mainProduct.inventory.quantity -= orderContity;
+      mainProduct.inventory.inStock = false;
+      await mainProduct.save();
+      return {
+        success: true,
+        message: 'Ordered created success ',
+        data: result,
+      };
+    } else {
+      const result = await OrderProductModel.create(order);
+      mainProduct.inventory.quantity -= orderContity;
+
+      await mainProduct.save();
+      return {
+        success: true,
+        message: 'Ordered created success ',
+        data: result,
+      };
+    }
   } catch (error) {
-    return error;
+    return {
+      success: false,
+      message: 'something went worong ',
+    };
   }
 };
-
-
 
 const getOrdersDblink = async () => {
   const result = await OrderProductModel.find();
@@ -51,14 +66,12 @@ const getOrdersDblink = async () => {
 };
 
 const SearchAsingleOrderFromDB = async (email: string) => {
- 
-    const query = { email: email };
-    const result = await OrderProductModel.findOne(query);
-    return result;
- 
+  const query = { email: email };
+  const result = await OrderProductModel.findOne(query);
+  return result;
 };
 export const orderService = {
   createOrderDblink,
   getOrdersDblink,
-  SearchAsingleOrderFromDB
+  SearchAsingleOrderFromDB,
 };

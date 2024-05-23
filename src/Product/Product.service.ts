@@ -13,12 +13,12 @@ const GetAsingleProductFromDB = async (id: string) => {
   const result = await ProductModel.findOne({ _id: id });
   return result;
 };
-const updateAsingleProductFromDB = async (id: string) => {
+const updateAsingleProductFromDB = async (id: string, data: object) => {
   const result = await ProductModel.updateOne(
     { _id: id },
     {
       $set: {
-        'inventory.quantity': 49,
+        ...data,
       },
     },
   );
@@ -29,12 +29,10 @@ const DeleteAsingleProductFromDB = async (id: string) => {
   const result = await ProductModel.findOne({ _id: id });
   return result;
 };
-const SearchAsingleProductFromDB = async (name: string) => {
- 
-    const query = { name: name };
-    const result = await ProductModel.findOne(query);
-    return result;
- 
+const SearchAsingleProductFromDB = async (searchTerm: string) => {
+  const query = { name: { $regex: searchTerm, $options: 'i' } };
+  const result = await ProductModel.find(query);
+  return result;
 };
 
 export const productService = {
