@@ -14,7 +14,7 @@ const GetAsingleProductFromDB = async (id: string) => {
   return result;
 };
 const updateAsingleProductFromDB = async (id: string, data: object) => {
-  const result = await ProductModel.updateOne(
+  await ProductModel.updateOne(
     { _id: id },
     {
       $set: {
@@ -22,6 +22,7 @@ const updateAsingleProductFromDB = async (id: string, data: object) => {
       },
     },
   );
+  const result = await ProductModel.findOne({ _id: id });
   return result;
 };
 const DeleteAsingleProductFromDB = async (id: string) => {

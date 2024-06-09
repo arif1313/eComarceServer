@@ -5,7 +5,7 @@ export const app: Application = express();
 
 app.use(express.json());
 app.use(cors());
-app.use('/ecomarce/v1/api', ProductRout);
+app.use('/api', ProductRout);
 app.use((req: Request, res: Response) => {
   res.status(404).json({
     success: false,
